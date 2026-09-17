@@ -1,6 +1,6 @@
 # Kildekategorier — hva du leter etter, og hvor
 
-Bruk denne lista i Steg 2 og 3 av `SKILL.md`. For hvert sted finnes ikke alle
+Bruk denne lista i Steg 2 av `SKILL.md`. For hvert sted finnes ikke alle
 kategoriene — noen steder har verken kino eller golfklubb. Gå gjennom lista,
 søk, og noter «finnes ikke her» der det stemmer i stedet for å hoppe over
 kategorien stille.

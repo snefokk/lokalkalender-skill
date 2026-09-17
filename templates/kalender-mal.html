@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,700;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: {{BG}};
+    --ink: {{INK}};
+    --ink-soft: {{INK_SOFT}};
+    --accent: {{ACCENT}};
+    --rule: {{RULE}};
+    --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --measure: 40rem;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  ::selection { background: var(--accent); color: var(--bg); }
+  a { color: inherit; text-decoration-color: var(--rule); text-underline-offset: .2em; }
+  a:hover { text-decoration-color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+  .wrap { max-width: var(--measure); margin: 0 auto; padding: clamp(2rem, 5vw, 3.5rem) 1.5rem 5rem; }
+
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: .75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .16em;
+    color: var(--ink-soft);
+    margin: 0 0 1rem;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(2rem, 6vw, 2.9rem);
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    margin: 0 0 .85rem;
+    color: var(--ink);
+  }
+  h1 em { color: var(--accent); font-style: italic; }
+  .subtitle { color: var(--ink-soft); margin: 0 0 .25rem; max-width: var(--measure); }
+  .generated { color: var(--ink-soft); font-size: .875rem; margin: 1rem 0 0; }
+  .generated a { color: var(--ink-soft); }
+
+  .filters { display: flex; flex-wrap: wrap; gap: .6rem; margin: 2rem 0 0; }
+  .filter-btn {
+    font: inherit;
+    font-family: var(--sans);
+    font-size: .8125rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    border: 1px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    border-radius: 999px;
+    padding: .4rem 1rem;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
+  }
+  .filter-btn:hover { border-color: var(--accent); }
+  .filter-btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+
+  .day-group { margin-top: 3rem; }
+  .day-head {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 1.375rem;
+    letter-spacing: -.005em;
+    color: var(--ink);
+    margin: 0 0 1.1rem;
+    padding-bottom: .6rem;
+    position: relative;
+    display: inline-block;
+  }
+  .day-head::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 2.5rem;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  ul.events { list-style: none; margin: 0; padding: 0; }
+  li.event {
+    display: grid;
+    grid-template-columns: 3.75rem 1.6rem 1fr;
+    gap: .1rem .9rem;
+    align-items: start;
+    padding: 1.1rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  .day-group ul.events li.event:first-child { border-top: none; padding-top: 0; }
+
+  .event-time {
+    font-family: var(--sans);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    font-size: .9375rem;
+    padding-top: .15rem;
+  }
+  .event-icon { width: 1.5rem; height: 1.5rem; color: var(--accent); opacity: .85; padding-top: .1rem; }
+  .event-icon svg { width: 100%; height: 100%; }
+
+  .event-title {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 1.0625rem;
+    margin: 0 0 .2rem;
+  }
+  .event-title a { text-decoration: none; }
+  .event-title a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+  .event-meta { color: var(--ink-soft); font-size: .9375rem; margin: 0; }
+  .event-side { grid-column: 3; margin-top: .5rem; }
+
+  .ticket-link {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: .75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    text-decoration: none;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    padding: .3rem .95rem;
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
+  }
+  .ticket-link:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  .price-note {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--accent);
+    font-size: .9375rem;
+  }
+
+  .empty-state {
+    margin-top: 2.5rem;
+    padding: 2.5rem;
+    background: color-mix(in srgb, var(--accent) 6%, var(--bg));
+    border-radius: 4px;
+    color: var(--ink-soft);
+    text-align: center;
+    font-family: var(--serif);
+    font-style: italic;
+  }
+
+  footer.colophon {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    color: var(--ink-soft);
+    font-size: .875rem;
+  }
+  footer.colophon p { margin: 0 0 .5rem; }
+  footer.colophon a { color: var(--ink-soft); }
+  footer.colophon .made-by {
+    font-family: var(--serif);
+    font-style: italic;
+    margin-bottom: 0;
+  }
+  footer.colophon .made-by a { color: var(--accent); text-decoration-color: var(--rule); }
+  .snefokk-logo-link { display: inline-flex; vertical-align: middle; }
+  .snefokk-logo { display: block; height: 14px; width: auto; opacity: .8; }
+
+  @media (max-width: 420px) {
+    li.event { grid-template-columns: 3.25rem 1.4rem 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">{{EYEBROW}}</p>
+    <h1>{{H1}}</h1>
+    <p class="subtitle">{{SUBTITLE}}</p>
+    <p class="generated">Sist oppdatert {{GENERATED}}{{SOURCE_NOTE}}</p>
+  </header>
+
+  <div class="filters" id="filters" hidden>
+    <button type="button" class="filter-btn" data-filter="alle" aria-pressed="true">Alle</button>
+  </div>
+
+  <main id="agenda"></main>
+
+  <footer class="colophon">
+    <p>{{COLOPHON}}</p>
+    <p class="made-by">Laget med hjerte i nord av <a href="https://snefokk.com" target="_blank" rel="noopener" class="snefokk-logo-link"><img class="snefokk-logo" src="{{SNEFOKK_LOGO}}" alt="Snefokk" height="14"></a>.</p>
+  </footer>
+</div>
+
+<script id="kalender-data" type="application/json">{{DATA_JSON}}</script>
+<script>
+(function () {
+  var data = JSON.parse(document.getElementById('kalender-data').textContent);
+  var agenda = document.getElementById('agenda');
+  var filtersWrap = document.getElementById('filters');
+
+  var ICONS = {
+    mat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v7a2 2 0 0 0 2 2v9"/><path d="M7 3v5"/><path d="M11 3v7"/><path d="M17 3c-1.7 0-3 2-3 5s1.3 5 3 5v8"/></svg>',
+    kultur: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>',
+    sport: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6M6.5 6.5v11M17.5 6.5v11M20 9v6M6.5 12h11"/></svg>',
+    bibliotek: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h6a2 2 0 0 1 2 2v14a1.5 1.5 0 0 0-1.5-1.5H4z"/><path d="M20 4h-6a2 2 0 0 0-2 2v14a1.5 1.5 0 0 1 1.5-1.5H20z"/></svg>',
+    kirke: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M9 5h6"/><path d="M6 21V11l6-4 6 4v10"/><path d="M10 21v-6h4v6"/></svg>',
+    uteliv: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14l-6 9v7h3M10 19H7"/><path d="M8 19v-7L2 3"/></svg>',
+    barn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"/><path d="M5 21c1-4.5 4-7 7-7s6 2.5 7 7"/></svg>',
+    annet: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.6l2.1 5.3 5.3 2.1-5.3 2.1L12 17.4l-2.1-5.3L4.6 10l5.3-2.1z"/></svg>'
+  };
+
+  var UKEDAGER = ['søndag','mandag','tirsdag','onsdag','torsdag','fredag','lørdag'];
+  var MANEDER = ['januar','februar','mars','april','mai','juni','juli','august','september','oktober','november','desember'];
+
+  function formatDayHeading(iso) {
+    var d = new Date(iso + 'T00:00:00');
+    if (isNaN(d)) return iso;
+    return UKEDAGER[d.getDay()] + ' ' + d.getDate() + '. ' + MANEDER[d.getMonth()];
+  }
+
+  function groupByDate(items) {
+    var byDate = {};
+    var order = [];
+    items.forEach(function (e) {
+      if (!byDate[e.dato]) { byDate[e.dato] = []; order.push(e.dato); }
+      byDate[e.dato].push(e);
+    });
+    order.sort();
+    order.forEach(function (d) {
+      byDate[d].sort(function (a, b) { return (a.tid || '').localeCompare(b.tid || ''); });
+    });
+    return order.map(function (d) { return { dato: d, arrangementer: byDate[d] }; });
+  }
+
+  function el(tag, cls, html) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (html !== undefined) n.innerHTML = html;
+    return n;
+  }
+
+  function renderEvent(e) {
+    var li = el('li', 'event');
+    li.dataset.kategori = e.kategori || 'annet';
+
+    var time = el('div', 'event-time', e.tid || '');
+    var icon = el('div', 'event-icon', ICONS[e.kategori] || ICONS.annet);
+    var body = el('div');
+
+    var title = el('p', 'event-title');
+    if (e.kilde_url) {
+      var a = document.createElement('a');
+      a.href = e.kilde_url;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = e.tittel;
+      title.appendChild(a);
+    } else {
+      title.textContent = e.tittel;
+    }
+    body.appendChild(title);
+
+    var metaParts = [];
+    if (e.sted) metaParts.push(e.sted);
+    if (e.info) metaParts.push(e.info);
+    if (metaParts.length) {
+      body.appendChild(el('p', 'event-meta', metaParts.join(' · ')));
+    }
+
+    if (e.billett_url || e.pris) {
+      var side = el('div', 'event-side');
+      if (e.billett_url) {
+        var link = document.createElement('a');
+        link.href = e.billett_url;
+        link.target = '_blank';
+        link.rel = 'noopener';
+        link.className = 'ticket-link';
+        link.textContent = 'Billett';
+        side.appendChild(link);
+      } else if (e.pris === 'gratis') {
+        side.appendChild(el('span', 'price-note', 'Gratis'));
+      } else if (e.pris) {
+        side.appendChild(el('span', 'price-note', e.pris));
+      }
+      body.appendChild(side);
+    }
+
+    li.appendChild(time);
+    li.appendChild(icon);
+    li.appendChild(body);
+    return li;
+  }
+
+  function render(filterKategori) {
+    agenda.innerHTML = '';
+    var items = data.arrangementer || [];
+    if (filterKategori && filterKategori !== 'alle') {
+      items = items.filter(function (e) { return (e.kategori || 'annet') === filterKategori; });
+    }
+    if (!items.length) {
+      agenda.appendChild(el('div', 'empty-state', 'Ingen kommende arrangementer akkurat nå.'));
+      return;
+    }
+    groupByDate(items).forEach(function (group) {
+      var section = el('div', 'day-group');
+      section.appendChild(el('p', 'day-head', formatDayHeading(group.dato)));
+      var ul = el('ul', 'events');
+      group.arrangementer.forEach(function (e) { ul.appendChild(renderEvent(e)); });
+      section.appendChild(ul);
+      agenda.appendChild(section);
+    });
+  }
+
+  var kategorier = {};
+  (data.arrangementer || []).forEach(function (e) { kategorier[e.kategori || 'annet'] = true; });
+  var kategoriNavn = { mat: 'Mat & drikke', kultur: 'Kultur', sport: 'Sport & aktivitet', bibliotek: 'Bibliotek', kirke: 'Kirke', uteliv: 'Uteliv', barn: 'Barn', annet: 'Annet' };
+  if (Object.keys(kategorier).length > 1) {
+    filtersWrap.hidden = false;
+    Object.keys(kategorier).sort().forEach(function (k) {
+      var btn = el('button', 'filter-btn', kategoriNavn[k] || k);
+      btn.type = 'button';
+      btn.setAttribute('data-filter', k);
+      btn.setAttribute('aria-pressed', 'false');
+      filtersWrap.appendChild(btn);
+    });
+  }
+
+  filtersWrap.addEventListener('click', function (ev) {
+    var btn = ev.target.closest('.filter-btn');
+    if (!btn) return;
+    filtersWrap.querySelectorAll('.filter-btn').forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+    render(btn.getAttribute('data-filter'));
+  });
+
+  render('alle');
+})();
+</script>
+</body>
+</html>

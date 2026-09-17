@@ -1,60 +1,60 @@
 # lokalkalender-skill
 
-Bygger en skreddersydd **kalenderrunde-skill** for et hvilket som helst sted
-— by, kommune eller region. En ukentlig rutine som samler lokale
-arrangementer fra Facebook og andre kilder uten API, legger dem fram til
-godkjenning, og (hvis stedet har en nettside for det) skriver de godkjente
-inn. En åpen skill for Claude (Cowork / Claude Code).
+Bygger en **selvstendig HTML-aktivitetskalender** — «Hva skjer i [sted]» —
+for et hvilket som helst sted i Norge: by, kommune eller region. Kartlegger
+lokale arrangementskilder, samler kommende arrangementer, legger dem fram
+til godkjenning, og bygger en ferdig, dagsgruppert HTML-side. Ingen server,
+ingen database — bare åpne fila. En åpen skill for Claude (Cowork / Claude
+Code).
 
-> **Vil du heller at vi bygger kalenderrunden for deg?**
-> Bestill en ferdig kalenderrunde på **[snefokk.com/kalender](https://snefokk.com/kalender)**
-> — så bygger Snefokk rutinen, tilpasser den kildene og nettsiden deres har,
-> og leverer klar til bruk. Dette repoet er for deg som vil gjøre jobben
-> selv, gratis.
+> **Vil du heller at vi bygger kalenderen for deg?**
+> Bestill en ferdig aktivitetskalender på
+> **[snefokk.com/kalender](https://snefokk.com/kalender)** — så bygger
+> Snefokk den, tilpasser kildene og designet, og leverer klar til bruk.
+> Dette repoet er for deg som vil gjøre jobben selv, gratis.
 
 ## Hva skillen lager
 
-Ikke selve kalenderen — en **ny skill** som gjør jobben ukentlig for stedet
-ditt, etter samme mønster som ble bygget for [vadsoby.com](https://vadsoby.com):
-
-- Kartlegger automatisk hvilke lokale kilder som har strukturerte data (kino,
-  kulturhus, idrettslag med seriekamper, bibliotek, museum, kirke, golf …)
-  og hvilke som bare finnes på Facebook
-- Genererer en ferdig `SKILL.md` for stedet, med kildetabell, steg-for-steg
-  instruksjoner og kjente fallgruver
-- Skriv-steget i den genererte skillen leverer enten en enkel forslagsliste,
-  eller (hvis dere oppgir nettsidens datastruktur) et format tilpasset
-  akkurat deres system
-- **Mennesket godkjenner alltid før noe publiseres** — det gjelder både denne
-  skillen og hver eneste skill den genererer
+- **Én selvstendig HTML-fil** — dagsgruppert agenda (dato → arrangementer
+  sortert på klokkeslett), med ikon per kategori, kategori-filter og
+  billett-lenker der de finnes
+- **Snefokks visuelle stil** — Newsreader/Inter, krem/lilla, samme
+  typografiske system som snefokk.com
+- **Kartlegger kildene automatisk** — kino, kulturhus, idrettslag,
+  bibliotek, kirke, museum, golf, og Facebook-sider uten API
+- **Rask å oppdatere** — kjør skillen på nytt (f.eks. ukentlig), så
+  gjenbrukes kildelista fra forrige kjøring; bare selve arrangementene
+  hentes ferskt
+- **Mennesket godkjenner alltid** — skillen bygger aldri HTML-en uten at
+  forslagene er godkjent først
 
 ## Hvem det er for
 
-- Kommuner, næringsforeninger og reiselivsorganisasjoner som vil ha samme
-  type ukentlige kalenderrutine som Vadsø, for sitt eget sted
-- Nettsteder som allerede har en kalenderfunksjon, men mangler en rutine for
-  arrangementer som ikke ligger i noe API
-- Steder uten egen nettside ennå, som vil ha en ryddig ukentlig oversikt over
-  lokale arrangementer å jobbe videre med
+- Kommuner, næringsforeninger og reiselivsorganisasjoner som vil ha en
+  samlet «hva skjer»-oversikt, uten å bygge og drifte et eget nettsted for
+  det
+- Nettsteder som vil legge en ferdig kalender inn på en eksisterende side
+  (undermappe, iframe, eller egen lenke)
+- Steder som vil ha noe i samme ånd som vadsoby.com sin «Hva skjer»-side,
+  uten Vadsøs egen database- og innsendingsløsning
 
-## To måter å få kalenderrunden
+## To måter å få kalenderen
 
 | Gjør det selv (dette repoet) | La Snefokk gjøre jobben |
 | --- | --- |
 | Gratis — krever et Claude-abonnement | Bestill på **[snefokk.com/kalender](https://snefokk.com/kalender)** |
-| Du kjører skillen selv i Claude — genererer en skill for stedet ditt, som du deretter kjører ukentlig | Snefokk bygger, tilpasser kildene og leverer, med én tilbakemeldingsrunde |
-| Krever at du selv kjører kartleggingen og finjusterer kildetabellen | Snefokk kjenner fallgruvene fra Vadsø-varianten og sparer deg for de første feilrundene |
+| Du kjører skillen selv i Claude — kartlegger kilder, godkjenner forslag, bygger HTML-en | Snefokk kartlegger kildene, tilpasser designet og leverer |
+| Kjør på nytt selv så ofte du vil, ingen ekstra kostnad | Snefokk kjenner fallgruvene og sparer deg for de første feilrundene |
 
 ## Hva du trenger (for å gjøre det selv)
 
 - Et aktivt **Claude Pro**-abonnement (eller høyere) — skillen kjører i
   Claude Cowork / Claude Code
+- **Python 3** — for å bygge selve HTML-en (kun standardbibliotek, ingen
+  `pip install`; finnes på de fleste maskiner)
 - **Chrome-tilkobling** (Claude i Chrome) — for å søke Facebooks
   arrangementssøk og lese plakater/bilder aktørene poster
-- **Internett-tilgang** — for websøk mot lokale nettsider, kino, bibliotek,
-  kirke osv.
-- *Valgfritt:* tilgang til nettsidens repo/CMS, hvis dere vil ha et
-  skreddersydd skriv-steg i stedet for en generisk forslagsliste
+- **Internett-tilgang** — for websøk mot lokale nettsider
 
 Skillen i seg selv er gratis og åpen kildekode.
 
@@ -64,17 +64,33 @@ Skillen i seg selv er gratis og åpen kildekode.
 2. **Installer i Claude** — pek Cowork/Claude Code mot skill-mappa
    (`~/.claude/skills/`).
 3. **Følg `SKILL.md`** — den tar deg steg for steg: fortell om stedet, la
-   Claude kartlegge kildene, avklar skriv-format, og få en ferdig
-   `SKILL.md` for stedet ditt.
-4. **Ta den nye skillen i bruk** — legg den genererte mappa i din egen
-   skill-katalog og kjør den ukentlig, med et menneske som godkjenner før
-   noe publiseres.
+   Claude kartlegge kildene, godkjenn forslagene, og få en ferdig HTML-fil.
+4. **Legg fila ut** — åpne den direkte, legg den på eksisterende
+   webhotell/hosting, eller be Snefokk om å hoste den.
+5. **Oppdater ved å kjøre skillen på nytt** — kildelista gjenbrukes
+   automatisk, så bare nye arrangementer samles inn før HTML-en bygges på
+   nytt.
+
+## Bygg fra en config-fil direkte (avansert)
+
+Skillen produserer en `config.json` og bygger HTML-en med et lite
+Python-skript (kun standardbibliotek — ingen `pip install`):
+
+```bash
+python3 scripts/build_html.py \
+  --config <sted>-kalender/config.json \
+  --template templates/kalender-mal.html \
+  --output <sted>-kalender/hva-skjer-i-<sted>.html
+```
+
+Se [`examples/config-eksempel.json`](examples/config-eksempel.json) for full
+struktur, og [`examples/hva-skjer-i-vadso.html`](examples/hva-skjer-i-vadso.html)
+for hvordan resultatet ser ut.
 
 ## Eksempler
 
-- **vadsoby.com** — den opprinnelige, håndbygde kalenderrunden dette
-  mønsteret er hentet fra, med kino, kulturscene, idrettslag, bibliotek,
-  kirke, golf og en håndfull Facebook-only-aktører
+- **Vadsø** — se [`examples/hva-skjer-i-vadso.html`](examples/hva-skjer-i-vadso.html)
+  for en bygget demo (eksempeldata, ikke live)
 
 ## Lisens
 

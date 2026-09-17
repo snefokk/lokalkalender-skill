@@ -1,8 +1,8 @@
 # Vanlige feller — generalisert fra vadsoby-kalenderrunde
 
 Disse fellene er ikke Vadsø-spesifikke. De dukker opp for ethvert sted, og bør
-skrives inn i **hver eneste** genererte skill (i seksjonen «Feller som har
-rammet oss»), tilpasset det aktuelle stedets faktiske aktører og treff.
+sjekkes hver gang skillen kjøres for et nytt sted — uansett hvor «åpenbart
+riktig» kildetreffene ser ut.
 
 ## Navnefella
 

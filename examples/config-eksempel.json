@@ -1,0 +1,82 @@
+{
+  "tittel": "Hva skjer i Vadsø | Aktivitetskalender",
+  "eyebrow": "Aktivitetskalender",
+  "h1": "Hva skjer i <em>Vadsø</em>",
+  "undertittel": "Alt som skjer de neste ukene, dag for dag.",
+  "generert": "17. september 2026",
+  "kilde_note": " · bygget med lokalkalender-skill",
+  "colophon": "Arrangementene er samlet fra Facebook, Vadsø kino, Vadsø bibliotek og andre lokale kilder. Bygget med <a href=\"https://github.com/snefokk/lokalkalender-skill\" target=\"_blank\" rel=\"noopener\">lokalkalender-skill</a>, et gratis AI-verktøy fra Snefokk.",
+  "arrangementer": [
+    {
+      "dato": "2026-09-17",
+      "tid": "15:30",
+      "tittel": "After Work med pizzabuffet",
+      "sted": "Baja Vadsø, Kirkegata 16",
+      "info": "Buffet 15:30–19:00, kr 100",
+      "kategori": "mat",
+      "pris": "betalt",
+      "kilde_url": "https://www.facebook.com/events/eksempel1"
+    },
+    {
+      "dato": "2026-09-17",
+      "tid": "16:00",
+      "tittel": "Familiebad",
+      "sted": "Vadsø svømmehall",
+      "info": "Stupetårn åpent",
+      "kategori": "sport",
+      "pris": "gratis"
+    },
+    {
+      "dato": "2026-09-17",
+      "tid": "17:30",
+      "tittel": "Lave forventninger",
+      "sted": "Vadsø kino",
+      "info": "Norgespremiere",
+      "kategori": "kultur",
+      "billett_url": "https://filmweb.no/eksempel"
+    },
+    {
+      "dato": "2026-09-17",
+      "tid": "20:00",
+      "tittel": "Fredagsquiz hos Opticom",
+      "sted": "Opticom Vadsø, Tollbugaten 10",
+      "info": "Maks 6 personer per lag, premie til vinnerlaget",
+      "kategori": "uteliv"
+    },
+    {
+      "dato": "2026-09-18",
+      "tid": "11:00",
+      "tittel": "Barnas lørdag på biblioteket",
+      "sted": "Vadsø bibliotek",
+      "info": "For barn",
+      "kategori": "barn",
+      "pris": "gratis"
+    },
+    {
+      "dato": "2026-09-18",
+      "tid": "11:00",
+      "tittel": "Konfirmasjonsgudstjeneste",
+      "sted": "Vestre Jakobselv kirke",
+      "kategori": "kirke",
+      "pris": "gratis"
+    },
+    {
+      "dato": "2026-09-18",
+      "tid": "19:00",
+      "tittel": "Saunafest 18+",
+      "sted": "Horisontti sauna, Moloen i Ytrebyfjæra",
+      "info": "300 kr enkeltbillett / 200 kr medlem, inkl. varm suppe",
+      "kategori": "sport",
+      "pris": "300 kr"
+    },
+    {
+      "dato": "2026-09-20",
+      "tid": "10:00",
+      "tittel": "Søndagsåpent hos Varangertunet",
+      "sted": "Varangertunet, Vestre Jakobselv",
+      "info": "Kaffe, kaker og fiskepakker på bål 10–15",
+      "kategori": "mat",
+      "pris": "495 kr"
+    }
+  ]
+}
