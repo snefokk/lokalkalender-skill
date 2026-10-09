@@ -6,6 +6,7 @@
   "generert": "17. september 2026",
   "kilde_note": " · bygget med lokalkalender-skill",
   "colophon": "Arrangementene er samlet fra Facebook, Vadsø kino, Vadsø bibliotek og andre lokale kilder. Bygget med <a href=\"https://github.com/snefokk/lokalkalender-skill\" target=\"_blank\" rel=\"noopener\">lokalkalender-skill</a>, et gratis AI-verktøy fra Snefokk.",
+  "skjul_passerte": false,
   "arrangementer": [
     {
       "dato": "2026-09-17",

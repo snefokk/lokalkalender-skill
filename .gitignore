@@ -1,0 +1,6 @@
+.DS_Store
+
+# Arbeidsmapper fra faktiske kjøringer (kundedata) — skal ikke ut i det offentlige repoet
+*-kalender/
+facebook-poster/
+__pycache__/

@@ -6,16 +6,18 @@
 <title>{{TITLE}}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,700;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="{{FONT_URL}}" rel="stylesheet">
 <style>
   :root {
     --bg: {{BG}};
     --ink: {{INK}};
     --ink-soft: {{INK_SOFT}};
+    --heading: {{HEADING}};
+    --heading-weight: {{HEADING_WEIGHT}};
     --accent: {{ACCENT}};
     --rule: {{RULE}};
-    --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
-    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --serif: {{FONT_HEADING}};
+    --sans: {{FONT_BODY}};
     --measure: 40rem;
   }
   * { box-sizing: border-box; }
@@ -47,12 +49,12 @@
   }
   h1 {
     font-family: var(--serif);
-    font-weight: 500;
+    font-weight: var(--heading-weight);
     font-size: clamp(2rem, 6vw, 2.9rem);
     line-height: 1.1;
     letter-spacing: -.01em;
     margin: 0 0 .85rem;
-    color: var(--ink);
+    color: var(--heading);
   }
   h1 em { color: var(--accent); font-style: italic; }
   .subtitle { color: var(--ink-soft); margin: 0 0 .25rem; max-width: var(--measure); }
@@ -81,10 +83,10 @@
   .day-group { margin-top: 3rem; }
   .day-head {
     font-family: var(--serif);
-    font-weight: 500;
+    font-weight: var(--heading-weight);
     font-size: 1.375rem;
     letter-spacing: -.005em;
-    color: var(--ink);
+    color: var(--heading);
     margin: 0 0 1.1rem;
     padding-bottom: .6rem;
     position: relative;
@@ -212,6 +214,11 @@
 <script>
 (function () {
   var data = JSON.parse(document.getElementById('kalender-data').textContent);
+  if (data.skjul_passerte !== false) {
+    var n = new Date();
+    var iDag = n.getFullYear() + '-' + ('0' + (n.getMonth() + 1)).slice(-2) + '-' + ('0' + n.getDate()).slice(-2);
+    data.arrangementer = (data.arrangementer || []).filter(function (e) { return e.dato >= iDag; });
+  }
   var agenda = document.getElementById('agenda');
   var filtersWrap = document.getElementById('filters');
 

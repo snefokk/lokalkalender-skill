@@ -40,11 +40,11 @@ Code).
 
 ## To måter å få kalenderen
 
-| Gjør det selv (dette repoet) | La Snefokk gjøre jobben |
-| --- | --- |
-| Gratis — krever et Claude-abonnement | Bestill på **[snefokk.com/kalender](https://snefokk.com/kalender)** |
-| Du kjører skillen selv i Claude — kartlegger kilder, godkjenner forslag, bygger HTML-en | Snefokk kartlegger kildene, tilpasser designet og leverer |
-| Kjør på nytt selv så ofte du vil, ingen ekstra kostnad | Snefokk kjenner fallgruvene og sparer deg for de første feilrundene |
+| Gjør det selv (dette repoet)                                                            | La Snefokk gjøre jobben                                             |
+| --------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| Gratis — krever et Claude-abonnement                                                    | Bestill på **[snefokk.com/kalender](https://snefokk.com/kalender)** |
+| Du kjører skillen selv i Claude — kartlegger kilder, godkjenner forslag, bygger HTML-en | Snefokk kartlegger kildene, tilpasser designet og leverer           |
+| Kjør på nytt selv så ofte du vil, ingen ekstra kostnad                                  | Snefokk kjenner fallgruvene og sparer deg for de første feilrundene |
 
 ## Hva du trenger (for å gjøre det selv)
 

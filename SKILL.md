@@ -78,6 +78,9 @@ roros-kalender/
 └── hva-skjer-i-roros.html          (levert fil — bygges fra config.json)
 ```
 
+Arbeidsmappene (`<sted>-kalender/`) inneholder kundedata og er ikke ment å
+ligge i det offentlige skill-repoet — `.gitignore` i repoet ekskluderer dem.
+
 ## Overordnet flyt
 
 ```
@@ -111,8 +114,11 @@ Spør brukeren (bruk `AskUserQuestion` der det passer):
 2. **Er det naboområder som skal regnes med?** List dem — de brukes som
    ekstra søkeord i steg 2.
 3. **Ønsket tittel/undertittel**, hvis noe annet enn «Hva skjer i [sted]».
-4. **Farger** — bruk Snefokk-standarden (se «Snefokk-defaults» under) med
-   mindre bruker oppgir en annen fargepalett (f.eks. stedets egen profil).
+4. **Profil: farger og fonter** — bruk Snefokk-standarden (se
+   «Snefokk-defaults» under) med mindre bruker oppgir stedets egen profil.
+   Spør i så fall etter: aksentfarge, evt. egen overskriftsfarge, og
+   fontnavn for overskrift og brødtekst (Google Fonts). Lag aldri en kopi av
+   malen for dette — alt styres fra `config.json` (se steg 5).
 5. **Hvor skal fila og arbeidsmappa ligge?**
 
 ## Steg 2 — Kartlegg kilder (strukturerte + Facebook)
@@ -215,7 +221,25 @@ ser ut.
 Skriv de godkjente arrangementene inn i `config.json` sitt
 `arrangementer`-felt (se `examples/config-eksempel.json` for full struktur —
 `tittel`, `eyebrow`, `h1`, `undertittel`, `generert`, `kilde_note`,
-`colophon`, valgfritt `farger`, og `arrangementer`).
+`colophon`, `arrangementer`, og valgfritt `farger`, `fonter` og
+`skjul_passerte`).
+
+Valgfrie felt for stedets profil og oppførsel:
+
+```json
+"farger": { "accent": "#eb6f0a", "heading": "#1a484f", "bg": "#ffffff" },
+"fonter": { "overskrift": "Poppins", "brodtekst": "Open Sans", "overskrift_vekt": 700 },
+"skjul_passerte": true
+```
+
+- `farger` — `bg`, `ink`, `ink_soft`, `accent`, `rule` og `heading`
+  (overskriftsfarge; standard er `ink`). Det som utelates, får Snefokk-standard.
+- `fonter` — Google Fonts-navn (bare bokstaver, tall, mellomrom, bindestrek).
+  Lenken til Google Fonts bygges automatisk; `google_fonts_url` kan settes for
+  å overstyre. `overskrift_vekt` er 500 som standard.
+- `skjul_passerte` — standard `true`: dager før dagens dato (i leserens
+  nettleser) skjules, så en fil som ikke er oppdatert ikke ser gammel ut.
+  Sett `false` for demoer med faste datoer.
 
 Kjør deretter:
 
@@ -256,7 +280,8 @@ oppdages — dette er en levende seksjon.
 - **Farger:** krem `#faf8f4` / lilla `#3d1f4d` (Snefokks husstil) med mindre
   brukeren ber om noe annet — se `DEFAULT_FARGER` i `scripts/build_html.py`.
 - **Fonter:** Newsreader (overskrifter, serif) + Inter (brødtekst, sans) —
-  lastet fra Google Fonts, samme oppsett som snefokk.com.
+  lastet fra Google Fonts, samme oppsett som snefokk.com. Overstyres med
+  `fonter` i `config.json` når stedet har egen profil.
 - **Footer:** *«Laget med hjerte i nord av Snefokk»*, lenket til
   snefokk.com — står fast i malen, ikke noe brukeren skal fjerne eller
   omformulere.
