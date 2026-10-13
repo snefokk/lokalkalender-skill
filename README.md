@@ -22,8 +22,11 @@ Code).
   typografiske system som snefokk.com
 - **Kartlegger kildene automatisk** — kino, kulturhus, idrettslag,
   bibliotek, kirke, museum, golf, og Facebook-sider uten API
-- **Rask å oppdatere** — kjør skillen på nytt (f.eks. ukentlig), så
-  gjenbrukes kildelista fra forrige kjøring; bare selve arrangementene
+- **Egen kildeliste** — første gang lages `kalenderkilder.md`, en vanlig
+  tekstfil med alle kildene (Facebook-sider, nettsider, faste ukentlige
+  tilbud). Den kan redigeres for hånd når dere får tips om nye aktører
+- **Fast oppdateringsdag** — dere velger en ukedag (f.eks. torsdag), og da
+  kjøres skillen på nytt: kildelista leses, og bare selve arrangementene
   hentes ferskt
 - **Mennesket godkjenner alltid** — skillen bygger aldri HTML-en uten at
   forslagene er godkjent først
@@ -67,9 +70,10 @@ Skillen i seg selv er gratis og åpen kildekode.
    Claude kartlegge kildene, godkjenn forslagene, og få en ferdig HTML-fil.
 4. **Legg fila ut** — åpne den direkte, legg den på eksisterende
    webhotell/hosting, eller be Snefokk om å hoste den.
-5. **Oppdater ved å kjøre skillen på nytt** — kildelista gjenbrukes
-   automatisk, så bare nye arrangementer samles inn før HTML-en bygges på
-   nytt.
+5. **Oppdater på den faste dagen** — kjør skillen på nytt den ukedagen dere
+   valgte. Kildelista (`kalenderkilder.md`) leses automatisk, så bare nye
+   arrangementer samles inn før HTML-en bygges på nytt. Nye tips legges rett
+   inn i kildelista.
 
 ## Bygg fra en config-fil direkte (avansert)
 

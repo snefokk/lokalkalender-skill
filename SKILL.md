@@ -6,8 +6,9 @@ description: >
   kulturhus, idrettslag, bibliotek, kirke, museum, golf, og Facebook-sider
   uten API), samler kommende arrangementer, legger dem fram til godkjenning,
   og bygger en ferdig, dagsgruppert HTML-side — ingen server, ingen
-  database, bare åpne fila. Kjøres på nytt (f.eks. ukentlig) for å
-  oppdatere kalenderen; kildelista gjenbrukes automatisk fra forrige kjøring.
+  database, bare åpne fila. Første kjøring lager en kildeliste
+  (kalenderkilder.md) som brukeren kan redigere selv, og en fast ukedag for
+  oppdatering; senere kjøringer leser lista og samler bare nye arrangementer.
   Bruk når: "lag en aktivitetskalender for [sted]", "bygg en hva skjer-side
   for kommunen vår", "vi trenger noe som vadsoby sin kalender men for
   [sted]", "oppdater kalenderen for [sted]", "generer en HTML-kalender over
@@ -22,9 +23,10 @@ Ingen database, ingen server, ingen CMS å drifte: én fil, som kan åpnes
 direkte i nettleseren eller legges på hvilken som helst webhotell/statisk
 hosting.
 
-Kalenderen er ferskvare. Kjør skillen på nytt (typisk ukentlig) for å
-oppdatere den — andre gang og senere gjenbrukes kildelista fra forrige
-kjøring, så bare selve innsamlingen av arrangementer gjøres på nytt.
+Kalenderen er ferskvare. **Første gang** kartlegger skillen kildene og lager
+en kildeliste, `kalenderkilder.md`, som stedet selv kan holde ved like — og man
+avtaler en **fast ukedag** for oppdatering. **Senere ganger** leses lista, og
+bare selve innsamlingen av arrangementer gjøres på nytt.
 
 All kommunikasjon med brukeren skjer på **norsk**.
 
@@ -33,8 +35,10 @@ All kommunikasjon med brukeren skjer på **norsk**.
 - **Én HTML-fil** — dagsgruppert agenda (dato → arrangementer sortert på
   klokkeslett), med ikon per kategori, kategori-filter, billett-lenker der de
   finnes, og Snefokks visuelle stil (Newsreader/Inter, krem/lilla)
-- **En lagret kildeliste** (`kilder.json`) for stedet, så neste kjøring ikke
-  må kartlegge kino/bibliotek/kirke/Facebook-sider på nytt
+- **En kildeliste** (`kalenderkilder.md`) for stedet — lesbar og redigerbar
+  for hånd, med fast oppdateringsdag øverst. Neste kjøring leser den i stedet
+  for å kartlegge kino/bibliotek/kirke/Facebook-sider på nytt, og nye tips
+  legges rett inn i den
 - **En bygge-config** (`config.json`) med de godkjente arrangementene — kan
   redigeres for hånd mellom kjøringer om noen vil justere et enkelt punkt
 
@@ -73,7 +77,7 @@ Hvert sted får sin egen arbeidsmappe, f.eks. `roros-kalender/`:
 
 ```
 roros-kalender/
-├── kilder.json                     (kildeliste — bygges én gang, gjenbrukes)
+├── kalenderkilder.md               (kildeliste + oppdateringsdag — lages første gang, redigeres fritt)
 ├── config.json                     (tittel, farger, colophon + godkjente arrangementer)
 └── hva-skjer-i-roros.html          (levert fil — bygges fra config.json)
 ```
@@ -84,10 +88,11 @@ ligge i det offentlige skill-repoet — `.gitignore` i repoet ekskluderer dem.
 ## Overordnet flyt
 
 ```
-0. Sjekk tidligere kjøring   → finnes kilder.json for stedet? Gjenbruk den med mindre bruker vil kartlegge på nytt
+0. Sjekk tidligere kjøring   → finnes kalenderkilder.md? Ja: les den, gå til steg 3. Nei: første kjøring
 1. Intervju om stedet        → navn, geografisk avgrensning, naboområder, ønsket design (valgfritt)
-2. Kartlegg kilder            → strukturerte (kino, bibliotek, kirke, museum …) + Facebook-only — lagres i kilder.json
-3. Samle arrangementer        → hent fra hver kilde, strukturer som utkast til arrangement-liste
+2. Kartlegg kilder            → strukturerte (kino, bibliotek, kirke, museum …) + Facebook-only
+2b. Lag kildelista            → skriv kalenderkilder.md, få den godkjent, velg fast oppdateringsdag
+3. Samle arrangementer        → hent fra hver kilde i kalenderkilder.md, strukturer som utkast
 4. Legg fram forslag          → tabell til godkjenning — MENNESKET avgjør hvilke som skal med
 5. Bygg HTML                  → skriv godkjente til config.json, kjør build_html.py
 6. Lever                      → vis fila, forklar hvordan man oppdaterer den neste gang
@@ -96,13 +101,25 @@ ligge i det offentlige skill-repoet — `.gitignore` i repoet ekskluderer dem.
 ## Steg 0 — Sjekk tidligere kjøring
 
 Spør brukeren hvilken mappe stedet skal bruke (opprett en ny hvis første
-gang). Finnes det en `kilder.json` der fra før:
+gang).
 
-> Jeg fant en kildeliste fra [dato] med [N] kilder for [sted]. Skal jeg
-> gjenbruke den, eller kartlegge på nytt? (Kartlegg på nytt hvis dere vet om
-> nye aktører, eller hvis det er lenge siden sist.)
+**Finnes `kalenderkilder.md`** → les den (den kan være redigert for hånd siden
+sist — den er fasit). Si kort hva du fant, og spør om noe er nytt:
 
-Standard: gjenbruk → hopp til **steg 3**. Ellers: full kjøring fra steg 1.
+> Kildelista for [sted] har [N] kilder og oppdateres hver [ukedag]. Har dere
+> fått tips om nye aktører siden sist, eller er noen lagt ned?
+
+Legg inn det brukeren sier i lista, og gå til **steg 3**. Er «Kildene sist
+gjennomgått» mer enn tre måneder gammel, foreslå en ny kartlegging (steg 2) —
+nye aktører dukker opp.
+
+Kjøres skillen en annen dag enn den avtalte, er det helt greit — bare nevn
+neste faste oppdateringsdag i leveransen.
+
+**Finnes en gammel `kilder.json`** (fra før kildelista ble en egen fil) → lag
+`kalenderkilder.md` fra den (steg 2b), og spør om oppdateringsdag.
+
+**Finnes ingen av dem** → første kjøring: start på **steg 1**.
 
 ## Steg 1 — Intervju om stedet
 
@@ -161,22 +178,52 @@ plakat (zoom inn og les nøye, ikke gjett klokkeslett).
 
 **Sjekk navnefella for hvert treff** — se `references/vanlige-feller.md`.
 
-**Lagre resultatet** i `kilder.json`:
+Hold rede på alt du finner — navn, kategori, lenke og hva som er spesielt med
+kilden. Det blir kildelista i neste steg.
 
-```json
-{
-  "sted": "Røros",
-  "generert": "2026-09-17",
-  "kilder": [
-    { "navn": "Rørosbanen kino", "type": "strukturert", "url": "https://...", "kategori": "kultur", "merknad": "Filmweb-API" },
-    { "navn": "Vertshuset Røros", "type": "facebook", "url": "https://facebook.com/...", "kategori": "mat", "merknad": "" }
-  ]
-}
-```
+## Steg 2b — Lag kildelista og velg oppdateringsdag (bare første gang)
+
+Skriv `kalenderkilder.md` i arbeidsmappa, med
+`references/kalenderkilder-mal.md` som mal. Fire deler:
+
+1. **Søkeord** for Facebooks arrangementssøk (stedet + naboområdene fra steg 1)
+2. **Aktører som sjekkes for hånd** — Facebook-sider og nettsider uten
+   hentbare data, med «Merk» om hva som er spesielt (plakat som bilde,
+   månedsprogram, mangler årstall …)
+3. **Faste ukentlige tilbud** — det som skjer samme tid hver uke
+4. **Kilder med strukturerte data** — kino, billettsystem, seriekamper
+
+Lista skal kunne leses og endres av noen som ikke kan kode: vanlige ord,
+klikkbare lenker, ingen JSON.
+
+**Legg lista fram før du går videre:**
+
+> Her er kildene jeg fant for [sted] — [N] Facebook-sider, [N] nettsider og
+> [N] faste ukentlige tilbud. Mangler det noen dere vet om, eller er noen
+> feil?
+
+Rett lista etter svaret.
+
+**Velg så en fast oppdateringsdag** (bruk `AskUserQuestion`). Foreslå
+**torsdag** som standard — da rekker kalenderen å bli oppdatert før helga og
+kan deles i sosiale medier samme dag. Andre vanlige valg: mandag (planlegge
+uka) eller søndag. Spør også hvor langt fram kalenderen skal dekke (standard
+14 dager).
+
+Skriv valgene inn øverst i `kalenderkilder.md` («Oppdateres hver»,
+«Kalenderen dekker», «Laget», «Kildene sist gjennomgått»).
+
+**Påminnelse (valgfritt):** Har plattformen planlagte oppgaver (f.eks.
+scheduled tasks i Claude Code/Cowork), tilby en ukentlig påminnelse den valgte
+dagen. Påminnelsen skal **bare spørre** om kalenderen skal oppdateres nå — den
+skal aldri kjøre innsamlingen selv (se «Hva skillen ikke skal gjøre»). Lag den
+bare hvis brukeren sier ja.
 
 ## Steg 3 — Samle arrangementer
 
-Gå gjennom hver kilde i `kilder.json` og hent kommende arrangementer. For
+Gå gjennom hver kilde i `kalenderkilder.md` — søkeordene i del 1, aktørene i
+del 2, de faste tilbudene i del 3 (kontroller at tidene stemmer) og kildene i
+del 4 — og hent kommende arrangementer innenfor perioden lista oppgir. For
 hver oppføring, strukturer et utkast:
 
 ```json
@@ -264,9 +311,14 @@ kategoriene, og at billett-lenker/priser vises som forventet.
   filer trengs, med mindre de vil endre den senere).
 - Forklar hvordan den legges ut: åpnes direkte, legges i en undermappe på
   eksisterende nettsted, eller hostes av Snefokk.
-- Forklar oppdatering: kjør skillen på nytt for samme sted → **steg 0**
-  gjenkjenner `kilder.json` og går rett til steg 3, så bare nye arrangementer
-  samles inn før HTML-en bygges på nytt.
+- Forklar oppdatering: kalenderen oppdateres hver **[ukedag fra
+  kalenderkilder.md]** ved å kjøre skillen på nytt for samme sted. **Steg 0**
+  leser kildelista og går rett til innsamlingen.
+- Forklar kildelista: `kalenderkilder.md` kan redigeres i hvilken som helst
+  teksteditor — legg til en rad når dere får tips om en ny aktør, eller stryk
+  en som er lagt ned. Den brukes neste gang.
+- Har kildelista blitt endret i denne runden (nye tips, døde kilder), oppdater
+  «Kildene sist gjennomgått» hvis du gikk gjennom hele lista.
 
 ## Feller som har rammet oss
 
@@ -292,7 +344,10 @@ oppdages — dette er en levende seksjon.
 ## Hva skillen ikke skal gjøre
 
 - **Ikke bygg HTML uten godkjenning.** Alltid steg 4 før steg 5.
-- **Ikke kjør ubemannet.** Startes av et menneske hver gang.
+- **Ikke kjør ubemannet.** Startes av et menneske hver gang. En planlagt
+  påminnelse på oppdateringsdagen skal bare spørre, aldri starte innsamlingen.
+- **Ikke legg nye kilder bare i hodet eller i en annen fil.** Alt som skal
+  sjekkes, står i `kalenderkilder.md`.
 - **Ikke gjett** pris, sted eller klokkeslett.
 - **Ikke ta med arrangementer utenfor det avgrensede området.**
 
@@ -309,6 +364,7 @@ lokalkalender-skill/
 │   ├── config-eksempel.json          (eksempel på full config-struktur)
 │   └── hva-skjer-i-vadso.html        (bygget demo, til referanse)
 └── references/
+    ├── kalenderkilder-mal.md         (mal for kildelista som lages første gang)
     ├── kildekategorier.md            (hvor du leter, kategori for kategori)
     └── vanlige-feller.md             (generaliserte fallgruver)
 ```
